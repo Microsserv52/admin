@@ -7,6 +7,8 @@ test("admin uploads, replaces, edits alternative text and removes a product imag
   page,
 }, testInfo) => {
   await mockApi(page, "admin");
+  const pageErrors: string[] = [];
+  page.on("pageerror", (error) => pageErrors.push(error.message));
   let product: Product = { ...products[0] };
   let version = 0;
   const png = await readFile("public/brand.png");
@@ -126,4 +128,10 @@ test("admin uploads, replaces, edits alternative text and removes a product imag
   await expect(
     page.getByRole("img", { name: "Updated alternative text", exact: true }),
   ).toHaveCount(0);
+  await page.getByRole("button", { name: "Cancel", exact: true }).click();
+  await expect(page.getByRole("dialog")).toHaveCount(0);
+  await manage().click();
+  await page.getByRole("dialog").press("Escape");
+  await expect(page.getByRole("dialog")).toHaveCount(0);
+  expect(pageErrors).toEqual([]);
 });
