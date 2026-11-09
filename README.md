@@ -69,7 +69,7 @@ orders. Every checkout is explicitly labeled as a demo.
 
 The approved defaults and visual references live in the platform
 [design direction](https://github.com/Microsserv52/platform/blob/feature/frontend-applications/docs/frontend/design.md).
-See the platform [frontend documentation](https://github.com/Microsserv52/platform/blob/feature/frontend-applications/docs/frontend/index.md)
+See the platform [frontend documentation](https://github.com/Microsserv52/platform/blob/feature/frontend-applications/docs/frontend/overview.md)
 for routing, feature scope, package decisions, API prerequisites, local fixture
 mode and verification evidence. antislop is applied during implementation.
 
