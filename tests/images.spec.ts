@@ -5,7 +5,7 @@ import type { Product } from "../src/lib/contracts";
 
 test("admin uploads, replaces, edits alternative text and removes a product image", async ({
   page,
-}) => {
+}, testInfo) => {
   await mockApi(page, "admin");
   let product: Product = { ...products[0] };
   let version = 0;
@@ -87,6 +87,21 @@ test("admin uploads, replaces, edits alternative text and removes a product imag
     await expect(
       page.getByRole("img", { name: alt, exact: true }),
     ).toBeVisible();
+    await expect
+      .poll(() =>
+        page
+          .getByRole("img", { name: alt, exact: true })
+          .evaluate((element) => (element as HTMLImageElement).naturalWidth),
+      )
+      .toBeGreaterThan(0);
+    if (alt === "Project logo upload fixture") {
+      const screenshot = testInfo.outputPath("image-dialog.png");
+      await page.screenshot({ path: screenshot });
+      await testInfo.attach("Image dialog", {
+        path: screenshot,
+        contentType: "image/png",
+      });
+    }
   }
   await page
     .getByLabel("Alternative text", { exact: true })
