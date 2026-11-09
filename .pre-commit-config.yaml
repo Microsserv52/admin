@@ -1,0 +1,27 @@
+repos:
+  - repo: local
+    hooks:
+      - id: formatting
+        name: Formatting
+        entry: npm run format:check
+        language: system
+        pass_filenames: false
+        always_run: true
+      - id: lint
+        name: ESLint
+        entry: npm run lint
+        language: system
+        pass_filenames: false
+        always_run: true
+      - id: types
+        name: TypeScript
+        entry: npm run typecheck
+        language: system
+        pass_filenames: false
+        always_run: true
+      - id: unit
+        name: Unit and contract tests
+        entry: npm test
+        language: system
+        pass_filenames: false
+        always_run: true

@@ -1,0 +1,88 @@
+.admin-layout {
+  display: grid;
+  grid-template-columns: 220px minmax(0, 1fr);
+  min-height: 65vh;
+}
+.admin-sidebar {
+  border-right: 1px solid var(--line);
+  padding: 36px 24px;
+}
+.admin-sidebar nav {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.admin-sidebar a {
+  padding: 14px;
+  text-decoration: none;
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+.admin-sidebar a[aria-current="page"] {
+  background: var(--tile);
+  font-weight: 700;
+}
+.admin-sidebar > p:last-child {
+  margin-top: 48px;
+  font-size: 0.78rem;
+}
+.admin-content {
+  padding: 44px clamp(20px, 4vw, 60px);
+  min-width: 0;
+}
+.admin-content .page-title {
+  font-size: clamp(2rem, 4vw, 3.7rem);
+}
+.admin-summary {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+.metric {
+  font:
+    3.5rem/1 Georgia,
+    serif;
+  margin: 24px 0;
+}
+.admin-note {
+  margin-top: 32px;
+}
+.table-caption {
+  text-align: left;
+  color: var(--muted);
+  font-size: 0.85rem;
+  padding: 14px 16px;
+}
+dt {
+  font-size: 0.8rem;
+  color: var(--muted);
+  margin-top: 20px;
+}
+dd {
+  margin: 8px 0 0;
+}
+@media (max-width: 800px) {
+  .admin-layout {
+    grid-template-columns: 1fr;
+  }
+  .admin-sidebar {
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+    padding: 20px;
+  }
+  .admin-sidebar nav {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  .admin-sidebar > p:last-child {
+    display: none;
+  }
+  .admin-sidebar .section-label {
+    margin-bottom: 10px;
+  }
+}
+@media (max-width: 500px) {
+  .admin-summary {
+    grid-template-columns: 1fr;
+  }
+}
