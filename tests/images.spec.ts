@@ -98,7 +98,7 @@ test("admin uploads, replaces, edits alternative text and removes a product imag
       .toBeGreaterThan(0);
     if (alt === "Project logo upload fixture") {
       const screenshot = testInfo.outputPath("image-dialog.png");
-      await page.screenshot({ path: screenshot });
+      await page.screenshot({ path: screenshot, animations: "disabled" });
       await testInfo.attach("Image dialog", {
         path: screenshot,
         contentType: "image/png",
@@ -132,6 +132,31 @@ test("admin uploads, replaces, edits alternative text and removes a product imag
   await expect(page.getByRole("dialog")).toHaveCount(0);
   await manage().click();
   await page.getByRole("dialog").press("Escape");
+  await expect(page.getByRole("dialog")).toHaveCount(0);
+  await page.getByRole("combobox", { name: "Color theme" }).click();
+  await page.getByRole("option", { name: "Dark", exact: true }).click();
+  await manage().click();
+  await page
+    .getByLabel("Image file", { exact: true })
+    .setInputFiles("public/brand.png");
+  await page
+    .getByLabel("Alternative text", { exact: true })
+    .fill("Dark theme upload fixture");
+  await expect(
+    page.getByRole("img", { name: "Dark theme upload fixture", exact: true }),
+  ).toBeVisible();
+  const darkScreenshot = testInfo.outputPath("image-dialog-dark.png");
+  await page.screenshot({ path: darkScreenshot, animations: "disabled" });
+  await testInfo.attach("Dark image dialog", {
+    path: darkScreenshot,
+    contentType: "image/png",
+  });
+  expect(
+    await page.evaluate(
+      () => document.documentElement.scrollWidth <= window.innerWidth,
+    ),
+  ).toBe(true);
+  await page.getByRole("button", { name: "Cancel", exact: true }).click();
   await expect(page.getByRole("dialog")).toHaveCount(0);
   expect(pageErrors).toEqual([]);
 });

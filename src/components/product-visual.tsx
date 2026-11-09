@@ -25,7 +25,8 @@ export function ProductVisual({
         width: "100%",
         height: "100%",
         aspectRatio: "1.2",
-        objectFit: "cover",
+        objectFit: priority ? "contain" : "cover",
+        backgroundColor: "#6b7065",
         borderRadius: 4,
       }}
     />

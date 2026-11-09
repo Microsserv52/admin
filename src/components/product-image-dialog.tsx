@@ -177,7 +177,12 @@ export function ProductImageDialog({
               width={480}
               height={320}
               unoptimized
-              style={{ width: "100%", height: 240, objectFit: "contain" }}
+              style={{
+                width: "100%",
+                height: 240,
+                objectFit: "contain",
+                backgroundColor: "#6b7065",
+              }}
             />
           )}
           <label htmlFor="product-image-file">Image file</label>
