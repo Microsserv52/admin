@@ -1,5 +1,6 @@
 name: CodeQL
 on:
+  workflow_dispatch:
   pull_request:
   push:
     branches: [main]
@@ -9,6 +10,7 @@ permissions:
   security-events: write
 jobs:
   analyze:
+    if: github.event.repository.private == false || vars.ENABLE_CODEQL == 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
