@@ -2,7 +2,7 @@ name: Frontend checks
 on:
   pull_request:
   push:
-    branches: [main, feature/frontend]
+    branches: [main, feature/frontend, feature/product-images]
 permissions:
   contents: read
 jobs:
@@ -20,10 +20,15 @@ jobs:
       - run: npm run typecheck
       - run: npm test
       - run: npm run build
+        env:
+          NEXT_PUBLIC_ENABLE_PRODUCT_IMAGE_UPLOADS: "true"
+          NEXT_PUBLIC_APP_ENV: fixture
       - run: npx playwright install --with-deps chromium
       - run: npm run test:e2e
       - uses: actions/upload-artifact@v4
-        if: failure()
+        if: always()
         with:
           name: browser-test-report
-          path: playwright-report
+          path: |
+            playwright-report
+            test-results

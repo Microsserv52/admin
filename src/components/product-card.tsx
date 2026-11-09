@@ -2,6 +2,7 @@
 import { Button } from "@mui/material";
 import { type Product } from "@/lib/contracts";
 import { money } from "@/lib/api";
+import { ProductVisual } from "@/components/product-visual";
 export function ProductCard({
   product,
   add,
@@ -16,8 +17,7 @@ export function ProductCard({
         href={"/store/product/?id=" + product.id}
         aria-label={"View " + product.name}
       >
-        <span aria-hidden="true">{product.name.slice(0, 2).toUpperCase()}</span>
-        <small>Product image unavailable</small>
+        <ProductVisual product={product} />
       </a>
       <div className="product-card-info">
         <a className="product-title" href={"/store/product/?id=" + product.id}>
