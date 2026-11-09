@@ -39,11 +39,10 @@ export function SessionProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     const channel = new BroadcastChannel("ms52-session");
     channel.onmessage = () => {
-      client.clear();
-      void refresh();
+      void client.resetQueries();
     };
     return () => channel.close();
-  }, [client, refresh]);
+  }, [client]);
   async function logout() {
     await api("/session", z.undefined(), { method: "DELETE" });
     client.clear();
