@@ -1,10 +1,29 @@
 import { z } from "zod";
 
+export const imageSchema = z.object({
+  url: z.string().refine((value) => {
+    if (
+      /^\/(media|api\/products)\/[^\\\\]*$/.test(value) &&
+      !value.includes("//")
+    )
+      return true;
+    try {
+      return new URL(value).protocol === "https:";
+    } catch {
+      return false;
+    }
+  }, "Use an HTTPS image URL or a /media/ path."),
+  alt: z.string().trim().min(1).max(200),
+  width: z.number().int().positive().max(4096),
+  height: z.number().int().positive().max(4096),
+});
+
 export const productSchema = z.object({
   id: z.uuid(),
   name: z.string().min(1),
   price: z.number().nonnegative(),
   unit: z.string().min(1),
+  image: imageSchema.nullish(),
 });
 export const productsSchema = z.array(productSchema);
 export type Product = z.infer<typeof productSchema>;

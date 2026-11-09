@@ -41,6 +41,7 @@ import {
   type Product,
 } from "@/lib/contracts";
 import "./admin.css";
+import { ProductImageDialog } from "./product-image-dialog";
 
 type Screen = "overview" | "products" | "accounts" | "observability";
 const features = tableFeatures({
@@ -321,6 +322,7 @@ function Products() {
   const [search, setSearch] = useState("");
   const [create, setCreate] = useState(false);
   const [remove, setRemove] = useState<Product | null>(null);
+  const [imageProduct, setImageProduct] = useState<Product | null>(null);
   const query = useQuery({
     queryKey: ["products"],
     queryFn: ({ signal }) => api("/products", productsSchema, { signal }),
@@ -350,6 +352,15 @@ function Products() {
             <div className="actions">
               <Button href={"/store/product/?id=" + cell.row.original.id}>
                 View
+              </Button>
+              <Button
+                disabled={
+                  process.env.NEXT_PUBLIC_ENABLE_PRODUCT_IMAGE_UPLOADS !==
+                  "true"
+                }
+                onClick={() => setImageProduct(cell.row.original)}
+              >
+                Manage image
               </Button>
               <Button
                 color="error"
@@ -398,6 +409,18 @@ function Products() {
         />
       )}
       <CreateProduct open={create} close={() => setCreate(false)} />
+      {process.env.NEXT_PUBLIC_ENABLE_PRODUCT_IMAGE_UPLOADS !== "true" && (
+        <Alert severity="info">
+          Image uploads are not available in this environment.
+        </Alert>
+      )}
+      {imageProduct && (
+        <ProductImageDialog
+          key={imageProduct.id}
+          product={imageProduct}
+          close={() => setImageProduct(null)}
+        />
+      )}
       <Dialog
         open={!!remove}
         onClose={() => {

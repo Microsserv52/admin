@@ -6,6 +6,32 @@ import { z } from "zod";
 afterEach(() => vi.unstubAllGlobals());
 const id = "00000000-0000-4000-8000-000000000001";
 describe("service contracts", () => {
+  it("accepts legacy products and validates optional image metadata", () => {
+    const product = { id, name: "Fixture", price: 1, unit: "item" };
+    expect(productSchema.safeParse(product).success).toBe(true);
+    const image = {
+      url: "https://images.example.test/version.png",
+      alt: "Fixture image",
+      width: 320,
+      height: 240,
+    };
+    expect(productSchema.safeParse({ ...product, image }).success).toBe(true);
+    for (const url of [
+      "javascript:alert(1)",
+      "http://external.test/image",
+      "//external.test/image",
+      "/media/\\\\external.test",
+    ]) {
+      expect(
+        productSchema.safeParse({ ...product, image: { ...image, url } })
+          .success,
+      ).toBe(false);
+    }
+    expect(
+      productSchema.safeParse({ ...product, image: { ...image, width: 0 } })
+        .success,
+    ).toBe(false);
+  });
   it("rejects invalid quantities recovered from browser storage", () => {
     for (const quantity of [0, -1, 1.5, 1000])
       expect(cartSchema.safeParse([{ id, quantity }]).success).toBe(false);
