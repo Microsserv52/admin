@@ -1,5 +1,7 @@
 # Microsserv52 admin
 
+![Tech Stack](https://skillicons.dev/icons?i=nextjs,react,typescript,tailwind,docker,grafana,githubactions)
+
 English-language educational mock store frontend at `/admin/`. **No real
 payments or transactions take place, and no goods are shipped.**
 
